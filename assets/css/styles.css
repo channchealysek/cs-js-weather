@@ -1,0 +1,40 @@
+.weather-daskboard {
+    display: flex;
+    height: 10.2vh;
+    margin: 10px;
+    font-size: 2.3rem;
+    color: #FFFFFF;
+    background: #525050;
+    text-shadow: 0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00;
+
+    /* create border shadow bottom */
+    -webkit-box-shadow: 0 4px 6px -6px #222;
+    -moz-box-shadow: 0 4px 6px -6px #222;
+    box-shadow: 0 4px 6px -6px #222;
+}
+
+.btn {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.weather-card {
+    position: relative;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.sunney-card {
+    border: 2px solid #f1e040;
+    background: rgb(252, 171, 69);
+    background: linear-gradient(90deg, rgba(252, 171, 69, 1) 0%, rgba(253, 233, 39, 1) 83%);
+}
+
+.cloud-card {
+    border: 2px solid #bdbcb7;
+    background: rgb(201, 199, 193);
+    background: linear-gradient(90deg, rgb(146, 192, 201) 3%, rgb(175, 181, 185) 52%, rgba(158, 206, 221, 0.971) 88%);
+}
