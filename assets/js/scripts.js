@@ -227,8 +227,16 @@ function _currentWeatherByURL() {
                     var _currentDate = new Date((data.dt) * 1000).toLocaleDateString();
                     $('#current-date').html(_currentDate);
 
+
                     _cudrrentUVIndex(data.coord.lat, data.coord.lon);
                     _5daysWeatherByURL(data.coord.lat, data.coord.lon);
+
+                    var _arrCityName = {
+                        _city: _cityName,
+                    }
+                    _saveCityName(_arrCityName);
+                    $('<li class = "list-group-item y-2 px-2 mb-1 h5">' + _cityName + '</li>').prependTo('#ulList');
+
                 });
         })
     }
@@ -278,22 +286,33 @@ function _cudrrentUVIndex(lat, long) {
 }
 
 
-
-_currentWeatherByURL();
-
 $('#button-search').on('click', () => {
     var _cityName = $('#search-city').val().trim();
     if (_cityName != "") {
-        $('<li class = "list-group-item y-2 px-2 mb-1 h5">' + _cityName + '</li>').prependTo('#ulList');
-        var _arrCityName = {
-            _city:_cityName,
+        var _cityNames = JSON.parse(localStorage.getItem('_cityNames')) || [];
+        var _totalCity = Object.keys(_cityNames).length;
+        if (_totalCity > 0) {
+            var result = _cityNames.filter(_cityNames => _cityName);
+            if(result[0]['_city'] != _cityName){
+                var _arrCityName = {
+                    _city: _cityName,
+                }
+                _saveCityName(_arrCityName);
+                $('<li class = "list-group-item y-2 px-2 mb-1 h5">' + _cityName + '</li>').prependTo('#ulList');
+            };
         }
-        _saveCityName(_arrCityName);
         getWeatherByCity(_cityName);
     }
 
 
-})
+});
+
+$('#ulList').on('click', (e) =>{
+    var liEl = e.target;
+    var _cityName = liEl.innerText;
+    getWeatherByCity(_cityName);
+});
+
 
 function getWeatherByCity(_cityName) {
 
@@ -308,8 +327,6 @@ function getWeatherByCity(_cityName) {
             const { speed } = data.wind;
             const { humidity } = data.main;
             const { icon } = data.weather[0];
-            let _lat = lat;
-            let _lon = lon;
             let _cityName = name;
             let _temp = (((temp - 273.5) * 1.80) + 32).toFixed(0);
             let _windSpeed = (speed * 2.237).toFixed(0);
@@ -322,6 +339,7 @@ function getWeatherByCity(_cityName) {
             $('#current-wind').html(_windSpeed + "mph");
             $('#humidity').html(_humidity + "%");
 
+            _cudrrentUVIndex(lat, lon)
             getDatafor5days(lat, lon, _cityName);
         });
 }
@@ -329,23 +347,23 @@ function getWeatherByCity(_cityName) {
 function getDatafor5days(lat, lon, _cityName) {
     const _urlByCity5Days = `https://api.openweathermap.org/data/2.5/forecast?q=${_cityName}&lat=${lat}&lon=${lon}&appid=${_apiKey}`;
     fetch(_urlByCity5Days)
-    .then(response => response.json())
-    .then(data => {
-        for (var i = 0; i < 5; i++) {
-            var _temp = data.list[((i + 1) * 8) - 1].main.temp;
-            var _speed = data.list[((i + 1) * 8) - 1].wind.speed;
-            var _humidity = data.list[((i + 1) * 8) - 1].main.humidity;
-            var _icon = data.list[((i + 1) * 8) - 1].weather[0].icon;
-            var _iconurl = "https://openweathermap.org/img/wn/" + _icon + ".png";
-            var _currentDate = new Date((data.list[((i + 1) * 8) - 1].dt) * 1000).toLocaleDateString();
-            $("#image" + i).html("<img src=" + _iconurl + ">");
-            $('#temp' + i).html((((_temp - 273.5) * 1.80) + 32).toFixed(0) + "&#8457");
-            $('#wind' + i).html((_speed * 2.237).toFixed(0) + "mph");
-            $('#humidity' + i).html(_humidity + "%");
-            $('#date' + i).html(_currentDate);
+        .then(response => response.json())
+        .then(data => {
+            for (var i = 0; i < 5; i++) {
+                var _temp = data.list[((i + 1) * 8) - 1].main.temp;
+                var _speed = data.list[((i + 1) * 8) - 1].wind.speed;
+                var _humidity = data.list[((i + 1) * 8) - 1].main.humidity;
+                var _icon = data.list[((i + 1) * 8) - 1].weather[0].icon;
+                var _iconurl = "https://openweathermap.org/img/wn/" + _icon + ".png";
+                var _currentDate = new Date((data.list[((i + 1) * 8) - 1].dt) * 1000).toLocaleDateString();
+                $("#image" + i).html("<img src=" + _iconurl + ">");
+                $('#temp' + i).html((((_temp - 273.5) * 1.80) + 32).toFixed(0) + "&#8457");
+                $('#wind' + i).html((_speed * 2.237).toFixed(0) + "mph");
+                $('#humidity' + i).html(_humidity + "%");
+                $('#date' + i).html(_currentDate);
 
-        }
-    });
+            }
+        });
 };
 
 
@@ -360,12 +378,17 @@ function _saveCityName(arr) {
 function _loadCityName() {
     var _cityNames = JSON.parse(localStorage.getItem('_cityNames')) || [];
     var _totalCity = Object.keys(_cityNames).length;
-
-    for (var i = 0; i < _totalCity; i++) {
-        var _cityName = _cityNames[i]['_city'];
-        console.log(_cityName)
-        $('<li class = "list-group-item y-2 px-2 mb-1 h5">' + _cityName + '</li>').appendTo('#ulList');
+    if (_totalCity > 0) {
+        for (var i = 0; i < _totalCity; i++) {
+            var _cityName = _cityNames[i]['_city'];
+            $('<li class = "list-group-item y-2 px-2 mb-1 h5">' + _cityName + '</li>').appendTo('#ulList');
+        }
+        var _cityName = _cityNames[0]['_city']
+        getWeatherByCity(_cityName);
+    } else {
+        _currentWeatherByURL();
     }
+
 }
 
 // call function tbnLoadEvents to load data to page.
