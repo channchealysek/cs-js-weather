@@ -14,12 +14,12 @@ headerContainer.append(
 
 // create row for container
 var divRow = $('<div>')
-    .addClass("row m-5");
+    .addClass("row justify-content-center row-container");
 
 // create column for container search
 var divColSearch = $('<div>')
     .attr("id", "search-container")
-    .addClass("col-3 rounded-3 pt-3 bg-light");
+    .addClass("col-3 col-sm-3 rounded-3 pt-3 bg-light search-container");
 
 // add item to column search
 // block search items
@@ -67,7 +67,7 @@ divColSearch.append(h4Text, divInputGroup, ulBlock);
 // create column for container weather
 var divColWeather = $('<div>')
     .attr("id", "weater-container")
-    .addClass("col-9");
+    .addClass("col-9 weater-container");
 
 // 1row and entires column for current weather
 var div1Row12Columns = $('<div>')
@@ -270,6 +270,7 @@ function _cudrrentUVIndex(lat, long) {
     fetch(_uvIndexURL)
         .then(response => response.json())
         .then(uvdata => {
+            console.log(uvdata)
             const { value } = uvdata;
             let _uvValue = value;
             $('#uv-index').html(_uvValue);

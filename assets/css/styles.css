@@ -19,6 +19,8 @@
 }
 
 .weather-card {
+    display: flex;
+    flex-direction: column;
     position: relative;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -28,21 +30,70 @@
 }
 
 .sunney-card {
+    position: relative;
     border: 2px solid #f1e040;
     background: rgb(252, 171, 69);
     background: linear-gradient(90deg, rgba(252, 171, 69, 1) 0%, rgba(253, 233, 39, 1) 83%);
+    font-size: 1.02rem;
 }
 
 .cloud-card {
+    width: auto;
+    position: relative;
     border: 2px solid #bdbcb7;
     background: rgb(201, 199, 193);
     background: linear-gradient(90deg, rgb(146, 192, 201) 3%, rgb(175, 181, 185) 52%, rgba(158, 206, 221, 0.971) 88%);
+    font-size: .88rem;
 }
 
-li { 
-    cursor: pointer; 
+li {
+    cursor: pointer;
 }
 
-li:hover{
+li:hover {
     background-color: #bdbcb7;
+}
+
+.list-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 15px;
+}
+
+.row-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+}
+
+@media only screen and (min-width: 300px) and (max-width: 1046px) {
+    .row .row-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .row .search-container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        width:auto;
+        margin-bottom: 5px;
+    }
+
+    .col .weater-container{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        margin-top: 15px;
+    }
+
+    .col .weather-5days{
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
 }
