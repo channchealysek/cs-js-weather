@@ -96,4 +96,8 @@ li:hover {
         justify-content: space-evenly;
         flex-direction: column;
     }
+
+    .cloud-card {
+        font-size: 1.02rem;
+    }
 }

@@ -270,7 +270,6 @@ function _cudrrentUVIndex(lat, long) {
     fetch(_uvIndexURL)
         .then(response => response.json())
         .then(uvdata => {
-            console.log(uvdata)
             const { value } = uvdata;
             let _uvValue = value;
             $('#uv-index').html(_uvValue);
@@ -284,7 +283,7 @@ function _cudrrentUVIndex(lat, long) {
                 $('#uv-index').removeClass("current rounded py-2 px-2 text-white").addClass("current rounded py-2 px-2 text-white bg-danger");
             }
         });
-}
+};
 
 
 $('#button-search').on('click', () => {
@@ -343,7 +342,7 @@ function getWeatherByCity(_cityName) {
             _cudrrentUVIndex(lat, lon)
             getDatafor5days(lat, lon, _cityName);
         });
-}
+};
 
 function getDatafor5days(lat, lon, _cityName) {
     const _urlByCity5Days = `https://api.openweathermap.org/data/2.5/forecast?q=${_cityName}&lat=${lat}&lon=${lon}&appid=${_apiKey}`;
@@ -374,7 +373,7 @@ function _saveCityName(arr) {
     arrtemp = JSON.parse(localStorage.getItem('_cityNames')) || [];
     arrtemp.unshift(arr);
     localStorage.setItem('_cityNames', JSON.stringify(arrtemp));
-}
+};
 
 function _loadCityName() {
     var _cityNames = JSON.parse(localStorage.getItem('_cityNames')) || [];
@@ -390,7 +389,7 @@ function _loadCityName() {
         _currentWeatherByURL();
     }
 
-}
+};
 
 // call function tbnLoadEvents to load data to page.
 $(document).ready(function () {
