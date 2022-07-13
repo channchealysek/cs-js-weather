@@ -275,12 +275,12 @@ function _cudrrentUVIndex(lat, long) {
             $('#uv-index').html(_uvValue);
 
             if (_uvValue > 0 && _uvValue <= 2) {
-                $('#uv-index').removeClass("current rounded py-2 px-2 text-white").addClass("current rounded py-2 px-2 text-white bg-success");
+                $('#uv-index').addClass("bg-success");
             } else if (_uvValue >= 3 && _uvValue <= 7) {
-                $('#uv-index').removeClass("current rounded py-2 px-2 text-white").addClass("current rounded py-2 px-2 text-white bg-warning");
+                $('#uv-index').addClass("bg-warning");
 
             } else if (_uvValue >= 8) {
-                $('#uv-index').removeClass("current rounded py-2 px-2 text-white").addClass("current rounded py-2 px-2 text-white bg-danger");
+                $('#uv-index').addClass("bg-danger");
             }
         });
 };
@@ -299,6 +299,7 @@ $('#button-search').on('click', () => {
                 }
                 _saveCityName(_arrCityName);
                 $('<li class = "list-group-item y-2 px-2 mb-1 h5">' + _cityName + '</li>').prependTo('#ulList');
+                $('#search-city').html("");
             };
         }
         getWeatherByCity(_cityName);
